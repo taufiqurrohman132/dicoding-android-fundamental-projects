@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyLiveDatda</string>
+    <string name="hallo">Hallo</string>
+    <string name="seconds">%d second elapsed</string>
+</resources>

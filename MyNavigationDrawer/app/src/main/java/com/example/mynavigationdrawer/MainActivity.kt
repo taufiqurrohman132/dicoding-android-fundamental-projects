@@ -1,0 +1,78 @@
+package com.example.mynavigationdrawer
+
+import android.os.Bundle
+import android.view.Menu
+import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.navigation.NavigationView
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.example.mynavigationdrawer.databinding.ActivityMainBinding
+import de.hdodenhof.circleimageview.CircleImageView
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var profile: CircleImageView
+    private var profileUrl = "data:image/jpeg;base64,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"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.appBarMain.toolbar)
+
+        binding.appBarMain.fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null)
+//                .setAnchorView(R.id.fab).show()
+
+            // ketika ingin posisi feb di atas snakbar
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action") {
+                    Toast.makeText(this, "ini action dari snack bar", Toast.LENGTH_SHORT).show()
+                }.show()
+        }
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+
+        profile = navView.getHeaderView(0).findViewById(R.id.imageView)
+        Glide.with(this)
+            .load(profileUrl)
+            .into(profile)
+
+        // proses navigasi otomatis, tanpa meambahakn action
+        val navController = findNavController(R.id.nav_host_fragment_content_main) // host fragment
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_cart // nav cart
+            ), drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration) // untuk mengatur judul agar sesuai dengan apa fragment yang di tampilkan
+        navView.setupWithNavController(navController)// untuk menampilakn fragment yang sesuai ketika di pilih
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    // untuk ketika berda di fragmenct destination, dan ketika back di tekan itu kembali ke host(home fragment), tidak langsung keluah
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+}
